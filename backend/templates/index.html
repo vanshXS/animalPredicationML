@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Species Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Animal Species Predictor</h1>
+
+        <form action="/" method="POST" enctype="multipart/form-data" class="upload-form">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit" class="upload-btn">Upload & Predict</button>
+        </form>
+
+        {% if uploaded_image_url %}
+        <div class="image-preview">
+            <h2>Uploaded Image</h2>
+            <img src="{{ uploaded_image_url }}" alt="Uploaded Animal" class="uploaded-image">
+        </div>
+        {% endif %}
+
+        {% if predictions %}
+        <div class="results-section">
+            <h2>Prediction Results</h2>
+            <div class="card-list">
+                {% for label, confidence in predictions %}
+                <div class="result-card {% if loop.first %}highlight{% endif %}">
+                    <h3>{{ label }}</h3>
+                    <p>Confidence: {{ "%.2f"|format(confidence|float) }}%</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
